@@ -1,4 +1,4 @@
-//
+// progress: https://www.hackingwithswift.com/books/ios-swiftui/why-does-swiftui-use-some-view-for-its-view-type
 //  ContentView.swift
 //  Meserole
 //
@@ -10,7 +10,11 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, World!")
+        Button("Hello, World") {
+            print(type(of: self.body))
+        }
+        .frame(maxWidth: 200, maxHeight: 200)
+        .background(Color.red)
     }
 }
 
