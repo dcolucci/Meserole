@@ -9,12 +9,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var useColor = false;
+
     var body: some View {
         Button("Hello, World") {
-            print(type(of: self.body))
+            self.useColor.toggle()
         }
         .frame(maxWidth: 200, maxHeight: 200)
-        .background(Color.red)
+        .background(useColor ? Color.red : Color.yellow)
     }
 }
 
