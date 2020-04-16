@@ -8,15 +8,25 @@
 
 import SwiftUI
 
-struct ContentView: View {
-    @State private var useColor = false;
+struct CapsuleView: View {
+    var text: String
 
     var body: some View {
-        Button("Hello, World") {
-            self.useColor.toggle()
+        Text(text)
+            .font(.largeTitle)
+            .padding()
+            .background(Color.blue)
+            .foregroundColor(.white)
+            .clipShape(Capsule())
+    }
+}
+
+struct ContentView: View {
+    var body: some View {
+        VStack {
+            CapsuleView(text: "whats up")
+            CapsuleView(text: "Whats good")
         }
-        .frame(maxWidth: 200, maxHeight: 200)
-        .background(useColor ? Color.red : Color.yellow)
     }
 }
 
