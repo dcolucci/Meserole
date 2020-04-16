@@ -1,4 +1,4 @@
-// progress: https://www.hackingwithswift.com/books/ios-swiftui/why-does-swiftui-use-some-view-for-its-view-type
+// progress: https://www.hackingwithswift.com/books/ios-swiftui/custom-modifiers
 //  ContentView.swift
 //  Meserole
 //
@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+// reusable UI element for capsules
 struct CapsuleView: View {
     var text: String
 
@@ -21,11 +22,59 @@ struct CapsuleView: View {
     }
 }
 
+// custom modifier to apply Title styles
+struct Title: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .font(.largeTitle)
+            .foregroundColor(.white)
+            .padding()
+            .background(Color.blue)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+    }
+}
+
+// wrap the custom modifier in an extension for ease-of-use
+extension View {
+    func titleStyle() -> some View {
+        self.modifier(Title())
+    }
+}
+
+// a modifier that creates a new view structure
+// renders a VStack to position a standardized Text
+// element over the passed content
+struct Watermark: ViewModifier {
+    var text: String
+
+    func body(content: Content) -> some View {
+        ZStack(alignment: .bottomTrailing) {
+            content
+            Text(text)
+                .font(.caption)
+                .foregroundColor(.white)
+                .padding()
+                .background(Color.black)
+        }
+    }
+}
+
+// wrap the Watermark modifier in an extension for ease-of-use
+extension View {
+    func watermarked(with text: String) -> some View {
+        self.modifier(Watermark(text: text))
+    }
+}
+
 struct ContentView: View {
     var body: some View {
-        VStack {
+        VStack(spacing: 20) {
             CapsuleView(text: "whats up")
-            CapsuleView(text: "Whats good")
+            Text("Not Doing Things (tm)")
+                .titleStyle()
+            Color.red
+                .frame(width: 300, height: 200)
+                .watermarked(with: "this is real")
         }
     }
 }
