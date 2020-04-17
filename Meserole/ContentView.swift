@@ -1,4 +1,4 @@
-// progress: https://www.hackingwithswift.com/books/ios-swiftui/custom-modifiers
+// progress: https://www.hackingwithswift.com/books/ios-swiftui/views-and-modifiers-wrap-up
 //  ContentView.swift
 //  Meserole
 //
@@ -66,15 +66,40 @@ extension View {
     }
 }
 
+// create a grid
+struct GridStack<Content: View>: View {
+    let rows: Int
+    let columns: Int
+    let content: (Int, Int) -> Content
+
+    init(rows: Int, columns: Int, @ViewBuilder content: @escaping (Int, Int) -> Content) {
+        self.rows = rows
+        self.columns = columns
+        self.content = content
+    }
+
+    var body: some View {
+        VStack {
+            ForEach(0..<rows, id: \.self) { row in
+                HStack {
+                    ForEach(0..<self.columns, id: \.self) { column in
+                        self.content(row, column)
+                    }
+                }
+            }
+        }
+    }
+}
+
 struct ContentView: View {
     var body: some View {
-        VStack(spacing: 20) {
-            CapsuleView(text: "whats up")
-            Text("Not Doing Things (tm)")
-                .titleStyle()
-            Color.red
-                .frame(width: 300, height: 200)
-                .watermarked(with: "this is real")
+        GridStack(rows: 4, columns: 4) { row, col in
+            Button(action: {
+                print(type(of: self.body))
+            }) {
+                Image(systemName: "\(row * 4 + col).circle")
+            }
+            Text("R\(row) C\(col)")
         }
     }
 }
