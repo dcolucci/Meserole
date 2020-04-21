@@ -27,10 +27,7 @@ struct Title: ViewModifier {
     func body(content: Content) -> some View {
         content
             .font(.largeTitle)
-            .foregroundColor(.white)
-            .padding()
-            .background(Color.blue)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .foregroundColor(.blue)
     }
 }
 
@@ -93,13 +90,17 @@ struct GridStack<Content: View>: View {
 
 struct ContentView: View {
     var body: some View {
-        GridStack(rows: 4, columns: 4) { row, col in
-            Button(action: {
-                print(type(of: self.body))
-            }) {
-                Image(systemName: "\(row * 4 + col).circle")
+        VStack(spacing: 30) {
+            Text("A cool title")
+                .titleStyle()
+            GridStack(rows: 4, columns: 4) { row, col in
+                Button(action: {
+                    print(type(of: self.body))
+                }) {
+                    Image(systemName: "\(row * 4 + col).circle")
+                }
+                Text("R\(row) C\(col)")
             }
-            Text("R\(row) C\(col)")
         }
     }
 }
